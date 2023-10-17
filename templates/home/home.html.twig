@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+  <style></style>
+  <h1>Page Accueil</h1>
+  <div class="row">
+    {% for article in articles %}
+      <div class="card col-md-4" style="width: 18rem">
+        <p class="date">{{ article.createdAt | date("d/M/Y") }}</p>
+        <img src="{{ asset('uploads/images/articles/' ~ article.image) }}" class="card-img-top" alt="{{ article.title }}" />
+        <div class="card-body">
+          <h5 class="card-title">{{ article.title }}</h5>
+          <a href="{{ path('app_show', { id: article.id }) }}" class="btn btn-primary">En Savoir plus</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if categoryData is defined and categoryData is not null %}
+    <h1>Page d'accueil</h1>
+    <ul>
+        {% for data in categoryData %}
+            <li>
+                <a href="{{ path('category_show', {'id': data.category.id}) }}">
+                    {{ data.category.name }} ({{ data.articleCount }} articles)
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No category data available.</p>
+    {{ dump(categoryData) }}
+
+{% endif %}
+
+{% endblock %}
